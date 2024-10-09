@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/yoga_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/yoga_logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Yoga"
+        tools:targetApi="31">
+        <activity
+            android:name=".ManageCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadPlayListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlayListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Login.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
