@@ -28,6 +28,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.yogaadmin.Login.SignInActivity;
 import com.yogaadmin.ManageCourseActivity;
+import com.yogaadmin.ManageUserActivity;
 import com.yogaadmin.Model.UserModel;
 import com.yogaadmin.R;
 import com.yogaadmin.databinding.FragmentProfileBinding;
@@ -91,6 +92,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        binding.manageUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ManageUserActivity.class);
+                startActivity(intent);
+            }
+        });
+
         binding.cardTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +128,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadProfileImage() {
-        database.getReference().child("admin_details").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
+        database.getReference().child("user_details").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -184,7 +193,7 @@ public class ProfileFragment extends Fragment {
                                     public void onSuccess(Uri uri) {
                                         HashMap<String,Object> map = new HashMap<>();
                                         map.put("profile",uri.toString());
-                                        database.getReference().child("admin_details").child(auth.getUid())
+                                        database.getReference().child("user_details").child(auth.getUid())
                                                 .updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {

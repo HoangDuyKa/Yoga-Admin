@@ -146,6 +146,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -160,6 +161,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -225,6 +227,8 @@ public class UploadPlayListActivity extends AppCompatActivity {
         list = new ArrayList<>();
 
         loadPlayList();
+        updateRegisteredCount(postId);
+
 
         // Video upload button
         binding.uploadVideo.setOnClickListener(view -> {
@@ -245,7 +249,53 @@ public class UploadPlayListActivity extends AppCompatActivity {
                 uploadPlayList(title);
             }
         });
+
+        // Playlist upload button
+        binding.deletePlaylist.setOnClickListener(view -> {
+
+//                deletePlayList(postId);
+            deleteCourse(postId);
+        });
     }
+
+    private void deleteCourse(String postId) {
+        // Tham chiếu tới course trong Firebase theo postId
+        DatabaseReference courseRef = database.getReference("course").child(postId);
+
+        // Xóa toàn bộ course với postId đã cho
+        courseRef.removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    // Xóa thành công khóa học và các playlists
+                    Toast.makeText(this, "Course and all related playlists deleted successfully", Toast.LENGTH_SHORT).show();
+                    list.clear(); // Xóa dữ liệu course khỏi danh sách hiển thị
+                    adapter.notifyDataSetChanged(); // Cập nhật giao diện
+                    onBackPressed();
+                })
+                .addOnFailureListener(e -> {
+                    // Không xóa được khóa học
+                    Toast.makeText(this, "Failed to delete course: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("DeleteCourse", "Error deleting course", e);
+                });
+    }
+
+//    private void deletePlayList(String postId) {
+//        // Reference the playlist under the specific course in Firebase
+//        DatabaseReference playlistRef = database.getReference("course").child(postId).child("playlist");
+//
+//        // Remove all playlists under the specified course
+//        playlistRef.removeValue()
+//                .addOnSuccessListener(aVoid -> {
+//                    // Successfully deleted the playlist
+//                    Toast.makeText(this, "Playlist deleted successfully", Toast.LENGTH_SHORT).show();
+//                    list.clear(); // Clear the local list to reflect UI update
+//                    adapter.notifyDataSetChanged(); // Notify adapter of data change
+//                })
+//                .addOnFailureListener(e -> {
+//                    // Failed to delete the playlist
+//                    Toast.makeText(this, "Failed to delete playlist: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Log.e("DeletePlaylist", "Error deleting playlist", e);
+//                });
+//    }
 
     private void loadPlayList() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(UploadPlayListActivity.this);
@@ -280,6 +330,29 @@ public class UploadPlayListActivity extends AppCompatActivity {
                         loadingdialog.dismiss();
                     }
                 });
+    }
+
+    private void updateRegisteredCount(String postId) {
+        DatabaseReference enrolledUsersRef = database.getReference("course").child(postId).child("enrolled_users");
+
+        enrolledUsersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Count the number of enrolled users
+                long registeredCount = snapshot.getChildrenCount();
+
+                // Update the TextView with the registered count
+                TextView tvRegisteredCount = findViewById(R.id.tvRegisteredCount);
+                tvRegisteredCount.setText(registeredCount + " people have registered for the course");
+                System.out.println(tvRegisteredCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FetchRegisteredCount", "Error fetching registered users", error.toException());
+                Toast.makeText(UploadPlayListActivity.this, "Failed to fetch registered count", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Upload the playlist

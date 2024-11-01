@@ -116,45 +116,55 @@ public class SignInActivity extends AppCompatActivity {
 //                    }
 //                });
 //    }
-    private void signin(String email, String password) {
-        loadingdialog.show();
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            if (auth.getCurrentUser().isEmailVerified()) {
-                                // Lấy userId hiện tại từ Firebase Authentication
-                                String userId = auth.getCurrentUser().getUid();
+private void signin(String email, String password) {
+    loadingdialog.show();
+    auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        if (auth.getCurrentUser().isEmailVerified()) {
+                            // Get the current user's ID from Firebase Authentication
+                            String userId = auth.getCurrentUser().getUid();
 
-                                // Kiểm tra với bảng admin_details trong Firebase Realtime Database
-                                database.getReference().child("admin_details").child(userId)
-                                        .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DataSnapshot> adminTask) {
-                                                if (adminTask.isSuccessful() && adminTask.getResult().exists()) {
-                                                    // Nếu người dùng tồn tại trong bảng admin_details
+                            // Check the user's role in the user_details in Firebase Realtime Database
+                            database.getReference().child("user_details").child(userId)
+                                    .child("role")
+                                    .get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DataSnapshot> roleTask) {
+                                            if (roleTask.isSuccessful() && roleTask.getResult().exists()) {
+                                                String role = roleTask.getResult().getValue(String.class);
+
+                                                if ("admin".equalsIgnoreCase(role)) {
+                                                    // User is an admin
                                                     loadingdialog.dismiss();
                                                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                                     startActivity(intent);
                                                     finish();
                                                 } else {
-                                                    // Người dùng không tồn tại trong admin_details
+                                                    // User is not an admin
                                                     loadingdialog.dismiss();
                                                     Toast.makeText(SignInActivity.this, "You are not authorized to access this app.", Toast.LENGTH_SHORT).show();
                                                 }
+                                            } else {
+                                                // Role not found or task failed
+                                                loadingdialog.dismiss();
+                                                Toast.makeText(SignInActivity.this, "Failed to retrieve role information.", Toast.LENGTH_SHORT).show();
                                             }
-                                        });
-                            } else {
-                                loadingdialog.dismiss();
-                                Toast.makeText(SignInActivity.this, "Your email is not verified. Please verify your email.", Toast.LENGTH_SHORT).show();
-                            }
+                                        }
+                                    });
                         } else {
                             loadingdialog.dismiss();
-                            Toast.makeText(SignInActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this, "Your email is not verified. Please verify your email.", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        loadingdialog.dismiss();
+                        Toast.makeText(SignInActivity.this, "Sign-in failed: " + task.getException().toString(), Toast.LENGTH_SHORT).show();
                     }
-                });
-    }
+                }
+            });
+}
+
 
 }

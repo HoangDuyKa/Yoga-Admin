@@ -79,37 +79,56 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signup(String name, String email, String password) {
         loadingdialog.show();
-        auth.createUserWithEmailAndPassword(email,password)
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             String userId = task.getResult().getUser().getUid();
-                            UserModel model = new UserModel(name,email,password,"no_profile_image");
+                            UserModel model = new UserModel(userId, name, email, password,
+                                    "https://firebasestorage.googleapis.com/v0/b/yoga-f7065.appspot.com/o/profile_image%2Fuser_profile.jpg?alt=media&token=69413328-0e26-4fad-9900-a2112903c08e", "admin");
+
+                            // Save user data to Firebase Database under user_details
                             database.getReference().child("user_details").child(userId)
-                                    .setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .setValue(model)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        loadingdialog.dismiss();
-                                                        Toast.makeText(SignUpActivity.this,"register successfully, please verify your email id",Toast.LENGTH_SHORT).show();
-                                                        onBackPressed();
-                                                    }
-                                                });
-                                            }
-                                            else{
-                                                loadingdialog.dismiss();
-                                                Toast.makeText(SignUpActivity.this,task.getException().toString(),Toast.LENGTH_SHORT).show();
+                                            if (task.isSuccessful()) {
+                                                // Send email verification to the user
+                                                auth.getCurrentUser().sendEmailVerification()
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                loadingdialog.dismiss();
+                                                                if (task.isSuccessful()) {
+                                                                    Toast.makeText(SignUpActivity.this, "Registered successfully. Please verify your email.", Toast.LENGTH_SHORT).show();
+                                                                } else {
+                                                                    Toast.makeText(SignUpActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                                                }
 
+                                                                // Sign out the user after registration
+                                                                auth.signOut();
+
+                                                                // Return to the SignInActivity
+                                                                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                startActivity(intent);
+                                                                finish(); // Close the registration activity
+                                                            }
+                                                        });
+                                            } else {
+                                                loadingdialog.dismiss();
+                                                Toast.makeText(SignUpActivity.this, "Failed to save user data: " + task.getException().toString(), Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
-
+                        } else {
+                            loadingdialog.dismiss();
+                            Toast.makeText(SignUpActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 }
