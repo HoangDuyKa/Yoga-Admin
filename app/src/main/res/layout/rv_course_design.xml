@@ -29,7 +29,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -38,25 +38,32 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/yoga_logo" />
+                <TextView
+                    android:id="@+id/postedByName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="@string/app_name" />
 
-            <TextView
-                android:id="@+id/postedByName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:text="@string/app_name" />
+                <TextView
+                    android:id="@+id/coursePrice"
+                    android:layout_width="62dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="$50"
+                    android:textColor="@color/background"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/coursePrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="$50"
-                android:textColor="@color/background"
-                android:textStyle="bold" />
+
         </LinearLayout>
+
+
+
+
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

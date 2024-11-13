@@ -2,4 +2,47 @@
     <string name="app_name">Yoga admin</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="day_of_week">
+        <item>Day of week</item> <!-- Hint item -->
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>Time</item> <!-- Hint item -->
+        <item>4:00 AM</item>
+        <item>5:00 AM</item>
+        <item>6:00 AM</item>
+        <item>7:00 AM</item>
+        <item>8:00 AM</item>
+        <item>9:00 AM</item>
+        <item>10:00 AM</item>
+        <item>11:00 AM</item>
+        <item>12:00 PM</item>
+        <item>1:00 PM</item>
+        <item>2:00 PM</item>
+        <item>3:00 PM</item>
+        <item>4:00 PM</item>
+        <item>5:00 PM</item>
+        <item>6:00 PM</item>
+        <item>7:00 PM</item>
+        <item>8:00 PM</item>
+    </string-array>
+
+    <string-array name="types_of_yoga">
+        <item>Type of Yoga</item> <!-- Hint item -->
+        <item>Family Yoga</item>
+        <item>Vinyasa Yoga</item>
+        <item>Hatha Yoga</item>
+        <item>Iyengar Yoga</item>
+        <item>Kundalini Yoga</item>
+        <item>Ashtanga Yoga</item>
+        <item>Bikram Yoga</item>
+    </string-array>
 </resources>

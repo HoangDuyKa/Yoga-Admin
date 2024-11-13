@@ -86,6 +86,36 @@
             android:inputType="text"
             android:padding="15dp" />
 
+        <Spinner
+            android:id="@+id/spinnerDayOfWeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edt_bg"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="15dp" />
+
+        <Spinner
+            android:id="@+id/spinnerTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edt_bg"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="15dp" />
+
+        <Spinner
+            android:id="@+id/spinnerType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edt_bg"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="15dp" />
+
         <EditText
             android:id="@+id/edtPrice"
             android:layout_width="match_parent"
@@ -137,5 +167,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:text="Upload" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

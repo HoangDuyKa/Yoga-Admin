@@ -100,6 +100,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 intent.putExtra("rate", model.getRating());
                 intent.putExtra("duration", model.getDuration());
                 intent.putExtra("desc", model.getDescription());
+                intent.putExtra("day", model.getDayOfWeek());
+                intent.putExtra("time", model.getTime());
+                intent.putExtra("type", model.getType());
                 context.startActivity(intent);
             } else {
                 Toast.makeText(context, "Post ID is missing", Toast.LENGTH_SHORT).show();

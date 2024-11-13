@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -48,6 +50,22 @@ public class UploadCourseActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Load data into the Spinner
+        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(this,
+                R.array.day_of_week, android.R.layout.simple_spinner_item);
+        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerDayOfWeek.setAdapter(dayAdapter);
+
+        ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.time, android.R.layout.simple_spinner_item);
+        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerTime.setAdapter(timeAdapter);
+
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.types_of_yoga, android.R.layout.simple_spinner_item);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerType.setAdapter(typeAdapter);
+
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -87,6 +105,9 @@ public class UploadCourseActivity extends AppCompatActivity {
                 String duration = binding.edtDuration.getText().toString();
                 String rating = binding.edtRating.getText().toString();
                 String description = binding.edtDescription.getText().toString();
+                String dayOfWeek = binding.spinnerDayOfWeek.getSelectedItem().toString();
+                String time = binding.spinnerTime.getSelectedItem().toString();
+                String typeYoga = binding.spinnerType.getSelectedItem().toString();
                 if(imageUri==null){
                     Toast.makeText(UploadCourseActivity.this,"please select thumbnail image", Toast.LENGTH_SHORT).show();
                 } else if (title.isEmpty()) {
@@ -104,14 +125,26 @@ public class UploadCourseActivity extends AppCompatActivity {
                 else if (description.isEmpty()) {
                     binding.edtDescription.setError("Enter description");
                 }
+                else if (dayOfWeek.equals("Days of week")) {
+                    Toast.makeText(UploadCourseActivity.this, "Please select a day of the week", Toast.LENGTH_SHORT).show();
+//                    return;
+                }
+                else if (time.equals("Time")) {
+                    Toast.makeText(UploadCourseActivity.this, "Please select a time of course", Toast.LENGTH_SHORT).show();
+//                    return;
+                }
+                else if (typeYoga.equals("Type of Yoga")) {
+                    Toast.makeText(UploadCourseActivity.this, "Please select a type of yoga course", Toast.LENGTH_SHORT).show();
+//                    return;
+                }
                 else{
-                    uploadCourse(title,price,duration,rating,description,imageUri);
+                    uploadCourse(title,price,duration,rating,description,imageUri,typeYoga,time,dayOfWeek);
                 }
             }
         });
     }
 
-    private void uploadCourse(String title, String price, String duration, String rating, String description, Uri imageUri) {
+    private void uploadCourse(String title, String price, String duration, String rating, String description, Uri imageUri, String type, String time, String dayOfWeek) {
         loadingdialog.show();
         StorageReference reference = storage.getReference().child("thumbnail").child(new Date().getTime()+"");
         reference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -126,6 +159,9 @@ public class UploadCourseActivity extends AppCompatActivity {
                         model.setDuration(duration);
                         model.setDescription(description);
                         model.setRating(rating);
+                        model.setType(type);
+                        model.setTime(time);
+                        model.setDayOfWeek(dayOfWeek);
                         model.setThumbnail(imageUri.toString());
                         model.setIntroVideo(uri.toString());
                         model.setPostedBy(auth.getUid());

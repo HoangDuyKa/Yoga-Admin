@@ -32,7 +32,7 @@ import java.util.Collections;
 public class PlayListActivity extends AppCompatActivity {
 
     ActivityPlayListBinding binding;
-    private String postId, postedByName, introUrl,title ,rating,duration, description;
+    private String postId, postedByName, introUrl,title ,rating,duration, description,courseType,day, time;
     private long price;
     private SimpleExoPlayer simpleExoPlayer;
 
@@ -70,13 +70,18 @@ public class PlayListActivity extends AppCompatActivity {
         rating = getIntent().getStringExtra("rate");
         duration = getIntent().getStringExtra("duration");
         description = getIntent().getStringExtra("desc");
+        day = getIntent().getStringExtra("day");
+        time = getIntent().getStringExtra("time");
+        courseType = getIntent().getStringExtra("type");
 
         binding.title.setText(title);
         binding.createdBy.setText(postedByName);
         binding.rating.setText(rating);
-        binding.duration.setText(duration);
+        binding.duration.setText(duration+" hours");
         binding.price.setText(price+"$");
         binding.description.setText(description);
+        binding.courseTime.setText(day + " "+ time);
+        binding.courseType.setText(courseType);
 
         try {
             simpleExoPlayer = new SimpleExoPlayer.Builder(PlayListActivity.this).build();
