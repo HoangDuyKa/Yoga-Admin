@@ -138,6 +138,8 @@
 
 package com.yogaadmin;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -256,6 +258,14 @@ public class UploadPlayListActivity extends AppCompatActivity {
 //                deletePlayList(postId);
             deleteCourse(postId);
         });
+
+        binding.editPlaylist.setOnClickListener(view -> {
+            Intent intent = new Intent(UploadPlayListActivity.this, EditCourseActivity.class);
+            intent.putExtra("courseId", postId); // Pass the course ID (postId) to EditCourseActivity
+            startActivity(intent);
+        });
+
+
     }
 
     private void deleteCourse(String postId) {

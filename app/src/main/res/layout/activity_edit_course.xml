@@ -5,7 +5,7 @@
     android:id="@+id/uploadCourse"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UploadCourseActivity">
+    tools:context=".EditCourseActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Upload Thumbnail"
+                android:text="Change Thumbnail"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Upload Intro Video"
+                android:text="Change Intro Video"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -161,12 +161,12 @@
             android:padding="15dp" />
 
         <Button
-            android:id="@+id/btnUploadCourse"
+            android:id="@+id/btnUpdateCourse"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
-            android:text="Upload" />
+            android:text="Update" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
