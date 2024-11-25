@@ -82,11 +82,15 @@ public class CourseAdapterAdmin extends RecyclerView.Adapter<CourseAdapterAdmin.
         // On clicking a course, open UploadPlayListActivity
         holder.itemView.setOnClickListener(view -> {
             String postId = model.getPostId();
+            String postedBy = model.getPostedBy();
+            String dayOfWeek = model.getDayOfWeek();
             Log.d("RecyclerView", "Post ID: " + postId);
 
             if (postId != null) {
                 Intent intent = new Intent(context, UploadPlayListActivity.class);
                 intent.putExtra("postId", postId);
+                intent.putExtra("postedBy", postedBy);
+                intent.putExtra("dayOfWeek", dayOfWeek);
                 context.startActivity(intent);
             } else {
                 Toast.makeText(context, "Post ID is missing", Toast.LENGTH_SHORT).show();

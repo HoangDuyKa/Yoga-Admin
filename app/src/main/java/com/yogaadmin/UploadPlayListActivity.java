@@ -184,6 +184,8 @@ public class UploadPlayListActivity extends AppCompatActivity {
     Uri videoUri;
     Dialog loadingdialog;
     private String postId;
+    private String postedBy;
+    private String dayOfWeek;
     PlayListAdapterAdmin adapter;
     ArrayList<PlayListModel> list;
 
@@ -208,6 +210,10 @@ public class UploadPlayListActivity extends AppCompatActivity {
 
         // Get postId from Intent
         postId = getIntent().getStringExtra("postId");
+        postedBy = getIntent().getStringExtra("postedBy");
+        dayOfWeek = getIntent().getStringExtra("dayOfWeek");
+
+
         if (postId == null) {
             Toast.makeText(this, "postId is missing", Toast.LENGTH_SHORT).show();
             finish();
@@ -262,6 +268,14 @@ public class UploadPlayListActivity extends AppCompatActivity {
         binding.editPlaylist.setOnClickListener(view -> {
             Intent intent = new Intent(UploadPlayListActivity.this, EditCourseActivity.class);
             intent.putExtra("courseId", postId); // Pass the course ID (postId) to EditCourseActivity
+            startActivity(intent);
+        });
+
+        binding.manageSchedule.setOnClickListener(view -> {
+            Intent intent = new Intent(UploadPlayListActivity.this, ManageScheduleActivity.class);
+            intent.putExtra("courseId", postId); // Pass the course ID (postId) to EditCourseActivity
+            intent.putExtra("postedBy", postedBy); // Pass the course ID (postId) to EditCourseActivity
+            intent.putExtra("dayOfWeek", dayOfWeek); // Pass the course ID (postId) to EditCourseActivity
             startActivity(intent);
         });
 

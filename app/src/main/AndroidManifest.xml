@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Yoga"
         tools:targetApi="31">
         <activity
+            android:name=".ManageScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddScheduleActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditCourseActivity"
             android:exported="false" />
         <activity
@@ -28,7 +34,7 @@
             android:name=".UploadCourseActivity"
             android:exported="false" />
         <activity
-            android:name=".PlayListActivity"
+            android:name=".CourseDetailScreen"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

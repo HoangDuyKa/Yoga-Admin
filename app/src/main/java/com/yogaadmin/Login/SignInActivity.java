@@ -141,6 +141,7 @@ private void signin(String email, String password) {
                                                     loadingdialog.dismiss();
                                                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                                     startActivity(intent);
+                                                    Toast.makeText(SignInActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                                                     finish();
                                                 } else {
                                                     // User is not an admin
@@ -160,7 +161,7 @@ private void signin(String email, String password) {
                         }
                     } else {
                         loadingdialog.dismiss();
-                        Toast.makeText(SignInActivity.this, "Sign-in failed: " + task.getException().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "Invalid email, please register to login" , Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -29,7 +29,7 @@ import com.yogaadmin.databinding.ActivityPlayListBinding;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class PlayListActivity extends AppCompatActivity {
+public class CourseDetailScreen extends AppCompatActivity {
 
     ActivityPlayListBinding binding;
     private String postId, postedByName, introUrl,title ,rating,duration, description,courseType,day, time;
@@ -55,7 +55,7 @@ public class PlayListActivity extends AppCompatActivity {
 
         list = new ArrayList<>();
 
-        loadingdialog = new Dialog(PlayListActivity.this);
+        loadingdialog = new Dialog(CourseDetailScreen.this);
         loadingdialog.setContentView(R.layout.loading_dialog);
         if (loadingdialog.getWindow() != null) {
             loadingdialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -84,7 +84,7 @@ public class PlayListActivity extends AppCompatActivity {
         binding.courseType.setText(courseType);
 
         try {
-            simpleExoPlayer = new SimpleExoPlayer.Builder(PlayListActivity.this).build();
+            simpleExoPlayer = new SimpleExoPlayer.Builder(CourseDetailScreen.this).build();
             binding.exoplayer2.setPlayer(simpleExoPlayer);
             MediaItem mediaItem = MediaItem.fromUri(introUrl);
             simpleExoPlayer.addMediaItems(Collections.singletonList(mediaItem));
@@ -127,7 +127,7 @@ public class PlayListActivity extends AppCompatActivity {
 
     private void playVideo(String videoUrl) {
         try {
-            simpleExoPlayer = new SimpleExoPlayer.Builder(PlayListActivity.this).build();
+            simpleExoPlayer = new SimpleExoPlayer.Builder(CourseDetailScreen.this).build();
             binding.exoplayer2.setPlayer(simpleExoPlayer);
             MediaItem mediaItem = MediaItem.fromUri(videoUrl);
             simpleExoPlayer.addMediaItems(Collections.singletonList(mediaItem));
@@ -164,7 +164,7 @@ public class PlayListActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(PlayListActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CourseDetailScreen.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                         loadingdialog.dismiss();
                     }
                 });
