@@ -1,14 +1,22 @@
 package com.yogaadmin.Model;
 
 public class CourseModel {
-    private String title, duration, rating, description;
+    private String title, duration, rating, description,thumbnail,introVideo,postId,postedBy,enable,type,time,dayOfWeek;
     private long price;
-    private String thumbnail,introVideo,postId,postedBy,enable,type,time,dayOfWeek;
+    private Object playlist;
+
+    public Object getPlaylist() {
+        return playlist;
+    }
+
+    public void setPlaylist(Object playlist) {
+        this.playlist = playlist;
+    }
 
     public CourseModel() {
     }
 
-    public CourseModel(String title, String duration, String rating, String description, long price, String thumbnail, String introVideo, String postId, String postedBy, String enable, String type, String time, String dayOfWeek) {
+    public CourseModel(String title, String duration, String rating, String description, long price, String thumbnail, String introVideo, String postId, String postedBy, String enable, String type, String time, String dayOfWeek,Object playlist) {
         this.title = title;
         this.duration = duration;
         this.rating = rating;
@@ -22,6 +30,7 @@ public class CourseModel {
         this.type = type;
         this.time = time;
         this.dayOfWeek = dayOfWeek;
+        this.playlist = playlist;
     }
 
     public String getType() {

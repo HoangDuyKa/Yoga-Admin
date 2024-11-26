@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.yogaadmin.Model.CourseModel;
 import com.yogaadmin.Model.UserModel;
-import com.yogaadmin.PlayListActivity;
+import com.yogaadmin.CourseDetailScreen;
 import com.yogaadmin.R;
 import com.yogaadmin.databinding.RvCourseDesignBinding;
 
@@ -91,7 +91,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             Log.d("RecyclerView", "Post ID: " + postId);
 
             if (postId != null) {
-                Intent intent = new Intent(context, PlayListActivity.class);
+                Intent intent = new Intent(context, CourseDetailScreen.class);
                 intent.putExtra("postId", postId);
                 intent.putExtra("name", postedBy);
                 intent.putExtra("introUrl", model.getIntroVideo());

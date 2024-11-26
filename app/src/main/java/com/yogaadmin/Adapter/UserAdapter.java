@@ -77,11 +77,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .addOnSuccessListener(aVoid -> {
                     // On successful deletion from Firebase, remove from local list and update UI
                     userList.remove(position);
+                    notifyDataSetChanged();
                     notifyItemRemoved(position);
                     Toast.makeText(context, "User deleted successfully.", Toast.LENGTH_SHORT).show();
 
-                    // Navigate back to the previous screen
-                    ((Activity) context).finish();
+//                    // Navigate back to the previous screen
+//                    ((Activity) context).finish();
                 })
                 .addOnFailureListener(e -> {
                     // If deletion fails, log the error and show a toast message

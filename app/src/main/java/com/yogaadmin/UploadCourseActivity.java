@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -153,7 +154,10 @@ public class UploadCourseActivity extends AppCompatActivity {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        DatabaseReference courseRef = database.getReference().child("course");
+                        String postId = courseRef.push().getKey();
                         CourseModel model = new CourseModel();
+                        model.setPostId(postId);
                         model.setTitle(title);
                         model.setPrice(Long.parseLong(price));
                         model.setDuration(duration);
@@ -167,16 +171,28 @@ public class UploadCourseActivity extends AppCompatActivity {
                         model.setPostedBy(auth.getUid());
                         model.setEnable("false");
 
-                        database.getReference().child("course")
-                                .push()
-                                .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        loadingdialog.dismiss();
-                                        Toast.makeText(UploadCourseActivity.this, "Course uploaded", Toast.LENGTH_SHORT).show();
-                                        onBackPressed();
-                                    }
-                                });
+//                        database.getReference().child("course")
+//                                .push()
+//                                .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void unused) {
+//                                        loadingdialog.dismiss();
+//                                        Toast.makeText(UploadCourseActivity.this, "Course uploaded", Toast.LENGTH_SHORT).show();
+//                                        onBackPressed();
+//                                    }
+//                                });
+                        // Save the course data to Firebase Database
+                        courseRef.child(postId).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                loadingdialog.dismiss();
+                                Toast.makeText(UploadCourseActivity.this, "Course uploaded successfully", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            }
+                        }).addOnFailureListener(e -> {
+                            loadingdialog.dismiss();
+                            Toast.makeText(UploadCourseActivity.this, "Failed to upload course: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
                 });
             }
